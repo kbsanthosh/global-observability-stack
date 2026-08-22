@@ -2,7 +2,6 @@ global:
   scrape_interval: 15s
   evaluation_interval: 15s
 
-# Enable feature flag for native OpenTelemetry histogram conversions
 enable_features:
   - otlp-write-receiver
 
