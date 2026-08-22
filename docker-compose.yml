@@ -64,12 +64,16 @@ services:
       - "3000:3000"
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
+    # --- ADD THIS VOLUMES BLOCK TO MOUNT THE AUTOMATED CONFIGS ---
+    volumes:
+      - ./config/grafana/provisioning:/etc/grafana/provisioning
     networks:
       - sihibank-network
     depends_on:
       - prometheus
       - loki
       - tempo
+
 
 networks:
   sihibank-network:
