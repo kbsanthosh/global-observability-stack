@@ -73,4 +73,4 @@ services:
 
 networks:
   sihibank-network:
-    external: true
+    name: sihibank-network # Automatically creates the network on your MacBook Pro if it does not exist
