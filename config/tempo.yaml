@@ -17,9 +17,9 @@ storage:
     local:
       path: /tmp/tempo/blocks
 
-# --- COMPACTOR & RETENTION RULESETS FOR TEMPO ---
+# --- FIXED COMPACTOR AND RETENTION SCHEMA ---
 compactor:
   compaction:
     compaction_window: 1h
-  retention:
-    block_retention: 24h # Purge trace files older than 24 hours
+    block_retention: 24h             # Correct: Tells Tempo to purge traces older than 24h
+    compacted_block_retention: 1h    # Correct: Cleans internal runtime cache items to stay well under 512MB
