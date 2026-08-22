@@ -1,0 +1,72 @@
+services:
+  version: '3.8'
+
+  services:
+    otel-collector:
+      image: otel/opentelemetry-collector-contrib:0.118.0
+      container_name: otel-collector
+      command: [ "--config=/etc/otelcol/config.yaml" ]
+      volumes:
+        - ./config/otel-collector.yaml:/etc/otelcol/config.yaml
+      ports:
+        - "4317:4317" # OTLP gRPC
+        - "4318:4318" # OTLP HTTP
+      networks:
+        - sihibank-network
+      depends_on:
+        - prometheus
+        - loki
+        - tempo
+
+    prometheus:
+      image: prom/prometheus:v3.14.0
+      container_name: prometheus
+      command:
+        - --config.file=/etc/prometheus/prometheus.yml
+        - --web.enable-remote-write-receiver
+      volumes:
+        - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      ports:
+        - "9090:9090"
+      networks:
+        - sihibank-network
+
+    loki:
+      image: grafana/loki:3.3.0
+      container_name: loki
+      command: -config.file=/etc/loki/local-config.yaml
+      volumes:
+        - ./config/loki.yaml:/etc/loki/local-config.yaml
+      ports:
+        - "3100:3100"
+      networks:
+        - sihibank-network
+
+    tempo:
+      image: grafana/tempo:2.7.0
+      container_name: tempo
+      command: [ "-config.file=/etc/tempo.yaml" ]
+      volumes:
+        - ./config/tempo.yaml:/etc/tempo.yaml
+      ports:
+        - "3200:3200"
+      networks:
+        - sihibank-network
+
+    grafana:
+      image: grafana/grafana:11.4.0
+      container_name: grafana
+      ports:
+        - "3000:3000"
+      environment:
+        - GF_SECURITY_ADMIN_PASSWORD=admin
+      networks:
+        - sihibank-network
+      depends_on:
+        - prometheus
+        - loki
+        - tempo
+
+  networks:
+    sihibank-network:
+      external: true
