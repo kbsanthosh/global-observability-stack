@@ -17,12 +17,14 @@ services:
       - tempo
 
   # 2. Prometheus (Metrics Server - Limited to 512MB / 24h)
+  # 2. Prometheus (Metrics Server - Limited to 512MB / 24h)
   prometheus:
     image: prom/prometheus:v3.14.0
     container_name: prometheus
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --web.enable-remote-write-receiver
+      - --enable-feature=otlp-write-receiver     # Add this: Native OpenTelemetry ingestion engine
       - --storage.tsdb.retention.time=24h
       - --storage.tsdb.retention.size=512MB
     volumes:
@@ -31,6 +33,7 @@ services:
       - "9090:9090"
     networks:
       - sihibank-network
+
 
   # 3. Grafana Loki (Logs Server - Limited to 24h)
   loki:

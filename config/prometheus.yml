@@ -2,10 +2,8 @@ global:
   scrape_interval: 15s
   evaluation_interval: 15s
 
-enable_features:
-  - otlp-write-receiver
-
 scrape_configs:
   - job_name: 'prometheus-self'
     static_configs:
       - targets: ['localhost:9090']
+
