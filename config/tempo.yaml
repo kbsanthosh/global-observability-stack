@@ -11,16 +11,15 @@ distributor:
 ingester:
   max_block_duration: 5m
 
-compactor:
-  compaction:
-    compacted_block_size_bytes: 524288000
-
 storage:
   trace:
     backend: local
     local:
       path: /tmp/tempo/blocks
-    # Enforces your exact 24h retention window and 512MB threshold natively
-    retention:
-      retention_period: 24h
-      max_bytes: 536870912
+
+# --- COMPACTOR & RETENTION RULESETS FOR TEMPO ---
+compactor:
+  compaction:
+    compaction_window: 1h
+  retention:
+    block_retention: 24h # Purge trace files older than 24 hours
