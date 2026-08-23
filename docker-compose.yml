@@ -77,9 +77,9 @@ services:
       - loki
       - tempo
 
-  # 6. MinIO (Local Amazon S3 Simulator - Official & Version Pinned)
+  # 6. MinIO (Local Amazon S3 Simulator - Highly Stable & UI Locked)
   minio:
-    image: minio/minio:RELEASE.2023-09-07T01-28-20Z
+    image: minio/minio:RELEASE.2024-11-07T00-52-20Z
     container_name: minio
     command: server /data --console-address ":9001"
     ports:
@@ -90,6 +90,7 @@ services:
       MINIO_ROOT_PASSWORD: sihibank-secure-password
     networks:
       - sihibank-network
+
 
 
 
