@@ -8,9 +8,13 @@ common:
   instance_addr: 127.0.0.1
   path_prefix: /loki
   storage:
-    filesystem:
-      chunks_directory: /loki/chunks
-      rules_directory: /loki/rules
+    s3:
+      endpoint: minio:9000
+      bucketnames: sihibank-logs
+      access_key_id: sihibank-admin
+      secret_access_key: sihibank-secure-password
+      insecure: true
+      s3forcepathstyle: true
   replication_factor: 1
   ring:
     kvstore:
