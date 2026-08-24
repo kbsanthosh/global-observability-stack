@@ -93,6 +93,12 @@ services:
     environment:
       MINIO_ROOT_USER: sihibank-admin
       MINIO_ROOT_PASSWORD: sihibank-secure-password
+    # --- ADD THIS HEALTHCHECK PROFILE ---
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 3s
+      timeout: 3s
+      retries: 5
     networks:
       - sihibank-network
     # --- AUTOMATICALLY INITIALIZE THE BUCKET ON CONTAINER STARTUP ---
