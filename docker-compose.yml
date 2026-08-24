@@ -47,6 +47,10 @@ services:
       - "3100:3100"
     networks:
       - sihibank-network
+    # --- UPDATE THIS DEPENDS_ON BLOCK TO WAIT FOR MINIO HEALTH ---
+    depends_on:
+      minio:
+        condition: service_healthy
 
   # 4. Grafana Tempo (Traces Server - Limited to 512MB / 24h)
   tempo:
