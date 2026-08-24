@@ -39,6 +39,7 @@ services:
   loki:
     image: grafana/loki:3.3.0
     container_name: loki
+    user: "root"      # ◄ CRITICAL FIX: Grants Loki permission to write files and bypass blocks!
     command: -config.file=/etc/loki/local-config.yaml
     volumes:
       - ./config/loki.yaml:/etc/loki/local-config.yaml
