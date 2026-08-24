@@ -91,6 +91,15 @@ services:
       MINIO_ROOT_PASSWORD: sihibank-secure-password
     networks:
       - sihibank-network
+    # --- AUTOMATICALLY INITIALIZE THE BUCKET ON CONTAINER STARTUP ---
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/minio server /data --console-address ':9001' & 
+      until curl -s http://localhost:9000/minio/health/live; do sleep 1; done;
+      /usr/bin/mc alias set local http://localhost:9000 sihibank-admin sihibank-secure-password;
+      /usr/bin/mc mb local/sihibank-logs || true;
+      wait
+      "
 
 
 
